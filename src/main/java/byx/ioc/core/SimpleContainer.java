@@ -71,6 +71,24 @@ public class SimpleContainer implements Container {
     }
 
     @Override
+    public ObjectDefinition getObjectDefinition(String id) {
+        if (!definitions.containsKey(id)) {
+            throw new IdNotFoundException(id);
+        }
+        return definitions.get(id);
+    }
+
+    @Override
+    public void setObjectDefinition(String id, ObjectDefinition definition) {
+        if (!freeze) {
+            if (!definitions.containsKey(id)) {
+                throw new IdNotFoundException(id);
+            }
+            definitions.put(id, definition);
+        }
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T getObject(String id) {
         checkCircularDependencyAndFreezeContainer();

@@ -124,4 +124,55 @@ public class SimpleContainerTest1 {
         CharSequence s = container.getObject(CharSequence.class);
         assertEquals("hello", s);
     }
+
+    /**
+     * setObjectDefinition
+     */
+    @Test
+    public void test3() {
+        Container container = new SimpleContainer();
+
+        assertThrows(IdNotFoundException.class, () -> {
+            container.setObjectDefinition("msg", new ObjectDefinition() {
+                @Override
+                public Class<?> getType() {
+                    return String.class;
+                }
+
+                @Override
+                public Object getInstance(Object[] params) {
+                    return "hello";
+                }
+            });
+        });
+
+        container.registerObject("msg", new ObjectDefinition() {
+            @Override
+            public Class<?> getType() {
+                return String.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return "aaa";
+            }
+        });
+
+        container.setObjectDefinition("msg", new ObjectDefinition() {
+            @Override
+            public Class<?> getType() {
+                return String.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return "bbb";
+            }
+        });
+
+        assertEquals("bbb", container.getObject("msg"));
+
+        assertNotNull(container.getObjectDefinition("msg"));
+        assertThrows(IdNotFoundException.class, () -> container.getObjectDefinition("msg2"));
+    }
 }

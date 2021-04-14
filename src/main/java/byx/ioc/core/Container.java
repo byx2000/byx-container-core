@@ -16,6 +16,20 @@ public interface Container {
     void registerObject(String id, ObjectDefinition definition);
 
     /**
+     * 获取对象定义
+     * @param id id
+     * @return 对象定义
+     */
+    ObjectDefinition getObjectDefinition(String id);
+
+    /**
+     * 设置对象定义
+     * @param id id
+     * @param definition 对象定义
+     */
+    void setObjectDefinition(String id, ObjectDefinition definition);
+
+    /**
      * 获取指定id的对象
      * @param id id
      * @param <T> 对象类型

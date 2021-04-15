@@ -15,6 +15,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>byx-maven-repo</id>
+            <name>byx-maven-repo</name>
+            <url>https://gitee.com/byx2000/maven-repo/raw/master/</url>
+        </repository>
+    </repositories>
+
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -23,7 +32,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>byx.ioc</groupId>
+            <groupId>byx.ioc.extension</groupId>
             <artifactId>byx-container-extension-aop</artifactId>
             <version>1.0.0</version>
             <scope>test</scope>

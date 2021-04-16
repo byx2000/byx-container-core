@@ -245,9 +245,15 @@ public class SimpleContainer implements Container {
             for (Dependency dep : dependencies) {
                 if (dep.getId() != null) {
                     int j = ids.indexOf(dep.getId());
+                    if (j < 0) {
+                        throw new IdNotFoundException(dep.getId());
+                    }
                     adj[i][j] = true;
                 } else if (dep.getType() != null) {
                     int j = ids.indexOf(getTypeId(dep.getType()));
+                    if (j < 0) {
+                        throw new TypeNotFoundException(dep.getType());
+                    }
                     adj[i][j] = true;
                 } else {
                     throw new BadDependencyException(dep);

@@ -1,17 +1,17 @@
 package byx.ioc.core;
 
 /**
- * 包装器上下文
+ * 对象回调器上下文
  *
  * @author byx
  */
-public class WrapperContext {
+public class ObjectCallbackContext {
     private final Object obj;
     private final Container container;
     private final ObjectDefinition definition;
     private final String id;
 
-    public WrapperContext(Object obj, Container container, ObjectDefinition definition, String id) {
+    public ObjectCallbackContext(Object obj, Container container, ObjectDefinition definition, String id) {
         this.obj = obj;
         this.container = container;
         this.definition = definition;

@@ -1,6 +1,7 @@
 package byx.ioc;
 
 import byx.ioc.core.Container;
+import byx.ioc.core.Dependency;
 import byx.ioc.core.ObjectDefinition;
 import byx.ioc.core.SimpleContainer;
 import byx.ioc.exception.IdDuplicatedException;
@@ -174,5 +175,59 @@ public class SimpleContainerTest1 {
 
         assertNotNull(container.getObjectDefinition("msg"));
         assertThrows(IdNotFoundException.class, () -> container.getObjectDefinition("msg2"));
+    }
+
+    /**
+     * 异常
+     */
+    @Test
+    public void test4() {
+        Container container = new SimpleContainer();
+
+        container.registerObject("a", new ObjectDefinition() {
+            @Override
+            public Dependency[] getInstanceDependencies() {
+                return new Dependency[]{Dependency.type(String.class)};
+            }
+
+            @Override
+            public Class<?> getType() {
+                return Integer.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return 123;
+            }
+        });
+
+        assertThrows(TypeNotFoundException.class, () -> container.getObject("a"));
+    }
+
+    /**
+     * 异常
+     */
+    @Test
+    public void test5() {
+        Container container = new SimpleContainer();
+
+        container.registerObject("a", new ObjectDefinition() {
+            @Override
+            public Dependency[] getInstanceDependencies() {
+                return new Dependency[]{Dependency.id("x")};
+            }
+
+            @Override
+            public Class<?> getType() {
+                return Integer.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return 123;
+            }
+        });
+
+        assertThrows(IdNotFoundException.class, () -> container.getObject("a"));
     }
 }

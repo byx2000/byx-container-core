@@ -98,18 +98,7 @@ public class SimpleContainer implements Container {
 
     @Override
     public <T> T getObject(Class<T> type) {
-        List<String> candidates = definitions.keySet().stream()
-                .filter(id -> type.isAssignableFrom(definitions.get(id).getType()))
-                .collect(Collectors.toList());
-
-        if (candidates.size() == 0) {
-            throw new TypeNotFoundException(type);
-        }
-        if (candidates.size() > 1) {
-            throw new MultiTypeMatchException(type);
-        }
-
-        return getObject(candidates.get(0));
+        return getObject(getTypeId(type));
     }
 
     @Override
@@ -123,7 +112,7 @@ public class SimpleContainer implements Container {
 
     @Override
     public Set<String> getObjectIds() {
-        return definitions.keySet();
+        return new HashSet<>(definitions.keySet());
     }
 
     /**
@@ -206,13 +195,20 @@ public class SimpleContainer implements Container {
         return createOrGetObject(id, definition);
     }
 
+    /**
+     * 获取类型对应的id
+     */
     private String getTypeId(Class<?> type) {
         List<String> candidates = definitions.keySet().stream()
                 .filter(id -> type.isAssignableFrom(definitions.get(id).getType()))
                 .collect(Collectors.toList());
-        if (candidates.size() != 1) {
-            return null;
+
+        if (candidates.size() == 0) {
+            throw new TypeNotFoundException(type);
+        } else if (candidates.size() > 1) {
+            throw new MultiTypeMatchException(type);
         }
+
         return candidates.get(0);
     }
 

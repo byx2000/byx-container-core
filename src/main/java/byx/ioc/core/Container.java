@@ -55,6 +55,14 @@ public interface Container {
     <T> T getObject(String id, Class<T> type);
 
     /**
+     * 获取指定类型的所有对象
+     * @param type 对象类型
+     * @param <T> 对象类型
+     * @return 对象集合
+     */
+    <T> Set<T> getObjects(Class<T> type);
+
+    /**
      * 获取容器中所有对象id的集合
      * @return id集合
      */

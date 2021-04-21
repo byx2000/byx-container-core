@@ -111,6 +111,16 @@ public class SimpleContainer implements Container {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public <T> Set<T> getObjects(Class<T> type) {
+        Set<Object> objects = definitions.keySet().stream()
+                .filter(id -> type.isAssignableFrom(definitions.get(id).getType()))
+                .map(id -> createOrGetObject(id, definitions.get(id)))
+                .collect(Collectors.toSet());
+        return (Set<T>) objects;
+    }
+
+    @Override
     public Set<String> getObjectIds() {
         return new HashSet<>(definitions.keySet());
     }

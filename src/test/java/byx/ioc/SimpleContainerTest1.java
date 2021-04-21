@@ -10,6 +10,8 @@ import byx.ioc.exception.MultiTypeMatchException;
 import byx.ioc.exception.TypeNotFoundException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -229,5 +231,58 @@ public class SimpleContainerTest1 {
         });
 
         assertThrows(IdNotFoundException.class, () -> container.getObject("a"));
+    }
+
+    /**
+     * getObjects
+     */
+    @Test
+    public void test6() {
+        Container container = new SimpleContainer();
+
+        container.registerObject("a", new ObjectDefinition() {
+            @Override
+            public Class<?> getType() {
+                return Integer.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return 123;
+            }
+        });
+
+        container.registerObject("b", new ObjectDefinition() {
+            @Override
+            public Class<?> getType() {
+                return String.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return "abc";
+            }
+        });
+
+        container.registerObject("c", new ObjectDefinition() {
+            @Override
+            public Class<?> getType() {
+                return String.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return "def";
+            }
+        });
+
+        Set<String> s1 = container.getObjects(String.class);
+        assertEquals(Set.of("abc", "def"), s1);
+
+        Set<Integer> s2 = container.getObjects(Integer.class);
+        assertEquals(Set.of(123), s2);
+
+        Set<Double> s3 = container.getObjects(Double.class);
+        assertTrue(s3.isEmpty());
     }
 }

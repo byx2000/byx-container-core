@@ -285,4 +285,51 @@ public class SimpleContainerTest1 {
         Set<Double> s3 = container.getObjects(Double.class);
         assertTrue(s3.isEmpty());
     }
+
+    /**
+     * getObjectTypes
+     */
+    @Test
+    public void test7() {
+        Container container = new SimpleContainer();
+
+        container.registerObject("a", new ObjectDefinition() {
+            @Override
+            public Class<?> getType() {
+                return Integer.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return 123;
+            }
+        });
+
+        container.registerObject("b", new ObjectDefinition() {
+            @Override
+            public Class<?> getType() {
+                return Integer.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return 456;
+            }
+        });
+
+        container.registerObject("c", new ObjectDefinition() {
+            @Override
+            public Class<?> getType() {
+                return String.class;
+            }
+
+            @Override
+            public Object getInstance(Object[] params) {
+                return "hello";
+            }
+        });
+
+        Set<Class<?>> types = container.getObjectTypes();
+        assertEquals(Set.of(Integer.class, String.class), types);
+    }
 }

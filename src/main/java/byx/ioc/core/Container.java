@@ -67,4 +67,10 @@ public interface Container {
      * @return id集合
      */
     Set<String> getObjectIds();
+
+    /**
+     * 获取容器中对象类型的集合
+     * @return 类型集合
+     */
+    Set<Class<?>> getObjectTypes();
 }

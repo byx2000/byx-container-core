@@ -125,6 +125,13 @@ public class SimpleContainer implements Container {
         return new HashSet<>(definitions.keySet());
     }
 
+    @Override
+    public Set<Class<?>> getObjectTypes() {
+        return definitions.values().stream()
+                .map(ObjectDefinition::getType)
+                .collect(Collectors.toSet());
+    }
+
     /**
      * 创建依赖项
      */
